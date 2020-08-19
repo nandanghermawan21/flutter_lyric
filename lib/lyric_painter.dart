@@ -103,6 +103,8 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
         size.height / 2 -
         lyricTextPaints[currentLyricIndex].height / 2;
 
+    print("current lyric : ${lyricTextPaints[currentLyricIndex]}");
+
     //遍历歌词进行绘制
     for (int lyricIndex = 0; lyricIndex < lyrics.length; lyricIndex++) {
       var currentLyric = lyrics[lyricIndex];
