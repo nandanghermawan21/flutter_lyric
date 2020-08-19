@@ -32,23 +32,24 @@ class LyricWidget extends StatefulWidget {
   //字体最大宽度
   double lyricMaxWidth;
 
-  LyricWidget(
-      {Key key,
-      @required this.lyrics,
-      this.remarkLyrics,
-      @required this.size,
-      this.controller,
-      this.lyricStyle,
-      this.remarkStyle,
-      this.currLyricStyle,
-      this.lyricGap: 10,
-      this.remarkLyricGap: 20,
-      this.draggingLyricStyle,
-      this.draggingRemarkLyricStyle,
-      this.enableDrag: true,
-      this.lyricMaxWidth,
-      this.currRemarkLyricStyle})
-      : assert(enableDrag != null),
+  LyricWidget({
+    Key key,
+    @required this.lyrics,
+    this.remarkLyrics,
+    @required this.size,
+    this.controller,
+    this.lyricStyle,
+    this.remarkStyle,
+    this.currLyricStyle,
+    this.lyricGap: 10,
+    this.remarkLyricGap: 20,
+    this.draggingLyricStyle,
+    this.draggingRemarkLyricStyle,
+    this.enableDrag: true,
+    this.lyricMaxWidth,
+    this.currRemarkLyricStyle,
+    this.onSetCurrentLyric,
+  })  : assert(enableDrag != null),
         assert(lyrics != null && lyrics.isNotEmpty),
         assert(size != null),
         assert(controller != null) {
@@ -57,8 +58,9 @@ class LyricWidget extends StatefulWidget {
     this.currLyricStyle ??= TextStyle(color: Colors.red, fontSize: 14);
     this.currRemarkLyricStyle ??= this.currLyricStyle;
     this.draggingLyricStyle ??= lyricStyle.copyWith(color: Colors.greenAccent);
-    this.draggingRemarkLyricStyle ??=
-        remarkStyle.copyWith(color: Colors.greenAccent);
+    this.draggingRemarkLyricStyle ??= remarkStyle.copyWith(
+      color: Colors.greenAccent,
+    );
 
     //歌词转画笔
     lyricTextPaints.addAll(lyrics
