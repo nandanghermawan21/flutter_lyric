@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'lyric.dart';
+import 'lyric.dart';
+import 'lyric.dart';
 
 class LyricPainter extends CustomPainter with ChangeNotifier {
   //歌词列表
@@ -24,6 +26,9 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
 
   //通过偏移量控制歌词滑动
   double _offset = 0;
+
+  //read current lyric
+  ValueChanged<Lyric> onSetCurrentLyric;
 
   set offset(value) {
     _offset = value;
@@ -76,18 +81,23 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
   //翻译/音译歌词画笔数组
   final List<TextPainter> subLyricTextPaints;
 
-  LyricPainter(this.lyrics, this.lyricTextPaints, this.subLyricTextPaints,
-      {this.subLyrics,
-      TickerProvider vsync,
-      this.lyricTextStyle,
-      this.subLyricTextStyle,
-      this.currLyricTextStyle,
-      this.currSubLyricTextStyle,
-      this.draggingLyricTextStyle,
-      this.draggingSubLyricTextStyle,
-      this.lyricGapValue,
-      this.subLyricGapValue,
-      this.lyricMaxWidth});
+  LyricPainter(
+    this.lyrics,
+    this.lyricTextPaints,
+    this.subLyricTextPaints, {
+    this.subLyrics,
+    TickerProvider vsync,
+    this.lyricTextStyle,
+    this.subLyricTextStyle,
+    this.currLyricTextStyle,
+    this.currSubLyricTextStyle,
+    this.draggingLyricTextStyle,
+    this.draggingSubLyricTextStyle,
+    this.lyricGapValue,
+    this.subLyricGapValue,
+    this.lyricMaxWidth,
+    this.onSetCurrentLyric,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -103,7 +113,9 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
         size.height / 2 -
         lyricTextPaints[currentLyricIndex].height / 2;
 
-    print("current lyric : ${lyrics[currentLyricIndex].lyric}");
+    if (onSetCurrentLyric != null) {
+      onSetCurrentLyric(lyrics[currentLyricIndex]);
+    }
 
     //遍历歌词进行绘制
     for (int lyricIndex = 0; lyricIndex < lyrics.length; lyricIndex++) {

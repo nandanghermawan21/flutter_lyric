@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'lyric.dart';
+import 'lyric.dart';
 import 'lyric_controller.dart';
 import 'lyric_painter.dart';
 
@@ -20,6 +21,7 @@ class LyricWidget extends StatefulWidget {
   final double lyricGap;
   final double remarkLyricGap;
   bool enableDrag;
+  ValueChanged<Lyric> onSetCurrentLyric;
 
   //歌词画笔数组
   List<TextPainter> lyricTextPaints = [];
@@ -127,20 +129,26 @@ class _LyricWidgetState extends State<LyricWidget> {
     }
 
     _lyricPainter = LyricPainter(
-        widget.lyrics, widget.lyricTextPaints, widget.subLyricTextPaints,
-        vsync: widget.controller.vsync,
-        subLyrics: widget.remarkLyrics,
-        lyricTextStyle: widget.lyricStyle,
-        subLyricTextStyle: widget.remarkStyle,
-        currLyricTextStyle: widget.currLyricStyle,
-        lyricGapValue: widget.lyricGap,
-        lyricMaxWidth: widget.lyricMaxWidth,
-        subLyricGapValue: widget.remarkLyricGap,
-        draggingLyricTextStyle: widget.draggingLyricStyle,
-        draggingSubLyricTextStyle: widget.draggingRemarkLyricStyle,
-        currSubLyricTextStyle: widget.currRemarkLyricStyle);
-    _lyricPainter.currentLyricIndex =
-        findLyricIndexByDuration(widget.controller.progress, widget.lyrics);
+      widget.lyrics,
+      widget.lyricTextPaints,
+      widget.subLyricTextPaints,
+      vsync: widget.controller.vsync,
+      subLyrics: widget.remarkLyrics,
+      lyricTextStyle: widget.lyricStyle,
+      subLyricTextStyle: widget.remarkStyle,
+      currLyricTextStyle: widget.currLyricStyle,
+      lyricGapValue: widget.lyricGap,
+      lyricMaxWidth: widget.lyricMaxWidth,
+      subLyricGapValue: widget.remarkLyricGap,
+      draggingLyricTextStyle: widget.draggingLyricStyle,
+      draggingSubLyricTextStyle: widget.draggingRemarkLyricStyle,
+      currSubLyricTextStyle: widget.currRemarkLyricStyle,
+      onSetCurrentLyric: widget.onSetCurrentLyric,
+    );
+    _lyricPainter.currentLyricIndex = findLyricIndexByDuration(
+      widget.controller.progress,
+      widget.lyrics,
+    );
     if (widget.controller.isDragging) {
       _lyricPainter.draggingLine = widget.controller.draggingLine;
       _lyricPainter.offset = widget.controller.draggingOffset;
@@ -155,7 +163,7 @@ class _LyricWidgetState extends State<LyricWidget> {
               if (temOffset < 0 && temOffset >= -totalHeight) {
                 widget.controller.draggingOffset = temOffset;
                 widget.controller.draggingLine =
-                    getCurrentDraggingLine(temOffset+widget.lyricGap);
+                    getCurrentDraggingLine(temOffset + widget.lyricGap);
                 _lyricPainter.draggingLine = widget.controller.draggingLine;
                 widget.controller.draggingProgress =
                     widget.lyrics[widget.controller.draggingLine].startTime +
