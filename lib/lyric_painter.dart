@@ -120,11 +120,7 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
       //仅绘制在屏幕内的歌词
       if (currentLyricY < size.height && currentLyricY > 0) {
         //绘制歌词到画布
-        currentLyricTextPaint
-          ..paint(
-              canvas,
-              Offset((size.width - currentLyricTextPaint.width) / 2,
-                  currentLyricY));
+        currentLyricTextPaint..paint(canvas, Offset(10, currentLyricY));
       }
       //当前歌词结束后调整下次开始绘制歌词的y坐标
       currentLyricY += currentLyricHeight + lyricGapValue;
@@ -153,10 +149,7 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
               //计算文本宽高
               ..layout(maxWidth: lyricMaxWidth)
               //绘制 offset=横向居中
-              ..paint(
-                  canvas,
-                  Offset((size.width - subLyricTextPaints[subIndex].width) / 2,
-                      currentLyricY));
+              ..paint(canvas, Offset(10, currentLyricY));
           }
           currentSubPaint..layout(maxWidth: lyricMaxWidth);
           //当前歌词结束后调整下次开始绘制歌词的y坐标
